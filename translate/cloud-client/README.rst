@@ -3,12 +3,16 @@
 Google Translation API Python Samples
 ===============================================================================
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=translate/cloud-client/README.rst
+
+
 This directory contains samples for Google Translation API. With `Google Translation API`, you can dynamically translate text between thousands of language pairs.
 
 
 
 
-.. _Google Translation API: https://cloud.google.com/translate/docs 
+.. _Google Translation API: https://cloud.google.com/translate/docs
 
 Setup
 -------------------------------------------------------------------------------
@@ -17,39 +21,26 @@ Setup
 Authentication
 ++++++++++++++
 
-Authentication is typically done through `Application Default Credentials`_,
-which means you do not have to change the code to authenticate as long as
-your environment has credentials. You have a few options for setting up
-authentication:
+This sample requires you to have authentication setup. Refer to the
+`Authentication Getting Started Guide`_ for instructions on setting up
+credentials for applications.
 
-#. When running locally, use the `Google Cloud SDK`_
-
-    .. code-block:: bash
-
-        gcloud auth application-default login
-
-
-#. When running on App Engine or Compute Engine, credentials are already
-   set-up. However, you may need to configure your Compute Engine instance
-   with `additional scopes`_.
-
-#. You can create a `Service Account key file`_. This file can be used to
-   authenticate to Google Cloud Platform services from any environment. To use
-   the file, set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to
-   the path to the key file, for example:
-
-    .. code-block:: bash
-
-        export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json
-
-.. _Application Default Credentials: https://cloud.google.com/docs/authentication#getting_credentials_for_server-centric_flow
-.. _additional scopes: https://cloud.google.com/compute/docs/authentication#using
-.. _Service Account key file: https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount
+.. _Authentication Getting Started Guide:
+    https://cloud.google.com/docs/authentication/getting-started
 
 Install Dependencies
 ++++++++++++++++++++
 
-#. Install `pip`_ and `virtualenv`_ if you do not already have them.
+#. Clone python-docs-samples and change directory to the sample directory you want to use.
+
+    .. code-block:: bash
+
+        $ git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+
+#. Install `pip`_ and `virtualenv`_ if you do not already have them. You may want to refer to the `Python Development Environment Setup Guide`_ for Google Cloud Platform for instructions.
+
+   .. _Python Development Environment Setup Guide:
+       https://cloud.google.com/python/setup
 
 #. Create a virtualenv. Samples are compatible with Python 2.7 and 3.4+.
 
@@ -73,6 +64,10 @@ Samples
 Quickstart
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=translate/cloud-client/quickstart.py,translate/cloud-client/README.rst
+
+
 
 
 To run this sample:
@@ -85,6 +80,10 @@ To run this sample:
 Snippets
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=translate/cloud-client/snippets.py,translate/cloud-client/README.rst
+
+
 
 
 To run this sample:
@@ -96,13 +95,13 @@ To run this sample:
     usage: snippets.py [-h]
                        {detect-language,list-languages,list-languages-with-target,translate-text}
                        ...
-    
+
     This application demonstrates how to perform basic operations with the
     Google Cloud Translate API
-    
+
     For more information, the documentation at
     https://cloud.google.com/translate/docs.
-    
+
     positional arguments:
       {detect-language,list-languages,list-languages-with-target,translate-text}
         detect-language     Detects the text's language.
@@ -116,9 +115,10 @@ To run this sample:
                             be an ISO 639-1 language code. See
                             https://g.co/cloud/translate/v2/translate-
                             reference#supported_languages
-    
+
     optional arguments:
       -h, --help            show this help message and exit
+
 
 
 

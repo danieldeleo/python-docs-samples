@@ -3,12 +3,16 @@
 Google Cloud Spanner Python Samples
 ===============================================================================
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=spanner/cloud-client/README.rst
+
+
 This directory contains samples for Google Cloud Spanner. `Google Cloud Spanner`_ is a highly scalable, transactional, managed, NewSQL database service. Cloud Spanner solves the need for a horizontally-scaling database with consistent global transactions and SQL semantics.
 
 
 
 
-.. _Google Cloud Spanner: https://cloud.google.com/spanner/docs 
+.. _Google Cloud Spanner: https://cloud.google.com/spanner/docs
 
 Setup
 -------------------------------------------------------------------------------
@@ -17,39 +21,26 @@ Setup
 Authentication
 ++++++++++++++
 
-Authentication is typically done through `Application Default Credentials`_,
-which means you do not have to change the code to authenticate as long as
-your environment has credentials. You have a few options for setting up
-authentication:
+This sample requires you to have authentication setup. Refer to the
+`Authentication Getting Started Guide`_ for instructions on setting up
+credentials for applications.
 
-#. When running locally, use the `Google Cloud SDK`_
-
-    .. code-block:: bash
-
-        gcloud auth application-default login
-
-
-#. When running on App Engine or Compute Engine, credentials are already
-   set-up. However, you may need to configure your Compute Engine instance
-   with `additional scopes`_.
-
-#. You can create a `Service Account key file`_. This file can be used to
-   authenticate to Google Cloud Platform services from any environment. To use
-   the file, set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to
-   the path to the key file, for example:
-
-    .. code-block:: bash
-
-        export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json
-
-.. _Application Default Credentials: https://cloud.google.com/docs/authentication#getting_credentials_for_server-centric_flow
-.. _additional scopes: https://cloud.google.com/compute/docs/authentication#using
-.. _Service Account key file: https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount
+.. _Authentication Getting Started Guide:
+    https://cloud.google.com/docs/authentication/getting-started
 
 Install Dependencies
 ++++++++++++++++++++
 
-#. Install `pip`_ and `virtualenv`_ if you do not already have them.
+#. Clone python-docs-samples and change directory to the sample directory you want to use.
+
+    .. code-block:: bash
+
+        $ git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+
+#. Install `pip`_ and `virtualenv`_ if you do not already have them. You may want to refer to the `Python Development Environment Setup Guide`_ for Google Cloud Platform for instructions.
+
+   .. _Python Development Environment Setup Guide:
+       https://cloud.google.com/python/setup
 
 #. Create a virtualenv. Samples are compatible with Python 2.7 and 3.4+.
 
@@ -73,6 +64,10 @@ Samples
 Snippets
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=spanner/cloud-client/snippets.py,spanner/cloud-client/README.rst
+
+
 
 
 To run this sample:
@@ -83,23 +78,25 @@ To run this sample:
 
     usage: snippets.py [-h] [--database-id DATABASE_ID]
                        instance_id
-                       {create_database,insert_data,query_data,read_data,add_column,update_data,query_data_with_new_column,read_write_transaction,read_only_transaction,add_index,query_data_with_index,read_data_with_index,add_storing_index,read_data_with_storing_index}
+                       {create_database,insert_data,query_data,read_data,read_stale_data,add_column,update_data,query_data_with_new_column,read_write_transaction,read_only_transaction,add_index,query_data_with_index,read_data_with_index,add_storing_index,read_data_with_storing_index,create_table_with_timestamp,insert_data_with_timestamp,add_timestamp_column,update_data_with_timestamp,query_data_with_timestamp}
                        ...
-    
+
     This application demonstrates how to do basic operations using Cloud
     Spanner.
-    
+
     For more information, see the README.rst under /spanner.
-    
+
     positional arguments:
       instance_id           Your Cloud Spanner instance ID.
-      {create_database,insert_data,query_data,read_data,add_column,update_data,query_data_with_new_column,read_write_transaction,read_only_transaction,add_index,query_data_with_index,read_data_with_index,add_storing_index,read_data_with_storing_index}
+      {create_database,insert_data,query_data,read_data,read_stale_data,add_column,update_data,query_data_with_new_column,read_write_transaction,read_only_transaction,add_index,query_data_with_index,read_data_with_index,add_storing_index,read_data_with_storing_index,create_table_with_timestamp,insert_data_with_timestamp,add_timestamp_column,update_data_with_timestamp,query_data_with_timestamp}
         create_database     Creates a database and tables for sample data.
         insert_data         Inserts sample data into the given database. The
                             database and table must already exist and can be
                             created using `create_database`.
         query_data          Queries sample data from the database using SQL.
         read_data           Reads sample data from the database.
+        read_stale_data     Reads sample data from the database. The data is
+                            exactly 15 seconds stale.
         add_column          Adds a new column to the Albums table in the example
                             database.
         update_data         Updates sample data in the database. This updates the
@@ -148,11 +145,40 @@ To run this sample:
                             Inserts sample data into the given database. The
                             database and table must already exist and can be
                             created using `create_database`.
-    
+        create_table_with_timestamp
+                            Creates a table with a COMMIT_TIMESTAMP column.
+        insert_data_with_timestamp
+                            Inserts data with a COMMIT_TIMESTAMP field into a
+                            table.
+        add_timestamp_column
+                            Adds a new TIMESTAMP column to the Albums table in the
+                            example database.
+        update_data_with_timestamp
+                            Updates Performances tables in the database with the
+                            COMMIT_TIMESTAMP column. This updates the
+                            `MarketingBudget` column which must be created before
+                            running this sample. You can add the column by running
+                            the `add_column` sample or by running this DDL
+                            statement against your database: ALTER TABLE Albums
+                            ADD COLUMN MarketingBudget INT64 In addition this
+                            update expects the LastUpdateTime column added by
+                            applying this DDL statement against your database:
+                            ALTER TABLE Albums ADD COLUMN LastUpdateTime TIMESTAMP
+                            OPTIONS(allow_commit_timestamp=true)
+        query_data_with_timestamp
+                            Queries sample data from the database using SQL. This
+                            updates the `LastUpdateTime` column which must be
+                            created before running this sample. You can add the
+                            column by running the `add_timestamp_column` sample or
+                            by running this DDL statement against your database:
+                            ALTER TABLE Performances ADD COLUMN LastUpdateTime
+                            TIMESTAMP OPTIONS (allow_commit_timestamp=true)
+
     optional arguments:
       -h, --help            show this help message and exit
       --database-id DATABASE_ID
                             Your Cloud Spanner database ID.
+
 
 
 

@@ -3,6 +3,10 @@
 Google Cloud Vision API Python Samples
 ===============================================================================
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=vision/cloud-client/detect/README.rst
+
+
 This directory contains samples for Google Cloud Vision API. `Google Cloud Vision API`_ allows developers to easily integrate vision detection features within applications, including image labeling, face and landmark detection, optical character recognition (OCR), and tagging of explicit content.
 
 - See the `migration guide`_ for information about migrating to Python client library v0.25.1.
@@ -12,7 +16,7 @@ This directory contains samples for Google Cloud Vision API. `Google Cloud Visio
 
 
 
-.. _Google Cloud Vision API: https://cloud.google.com/vision/docs 
+.. _Google Cloud Vision API: https://cloud.google.com/vision/docs
 
 Setup
 -------------------------------------------------------------------------------
@@ -21,39 +25,26 @@ Setup
 Authentication
 ++++++++++++++
 
-Authentication is typically done through `Application Default Credentials`_,
-which means you do not have to change the code to authenticate as long as
-your environment has credentials. You have a few options for setting up
-authentication:
+This sample requires you to have authentication setup. Refer to the
+`Authentication Getting Started Guide`_ for instructions on setting up
+credentials for applications.
 
-#. When running locally, use the `Google Cloud SDK`_
-
-    .. code-block:: bash
-
-        gcloud auth application-default login
-
-
-#. When running on App Engine or Compute Engine, credentials are already
-   set-up. However, you may need to configure your Compute Engine instance
-   with `additional scopes`_.
-
-#. You can create a `Service Account key file`_. This file can be used to
-   authenticate to Google Cloud Platform services from any environment. To use
-   the file, set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to
-   the path to the key file, for example:
-
-    .. code-block:: bash
-
-        export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json
-
-.. _Application Default Credentials: https://cloud.google.com/docs/authentication#getting_credentials_for_server-centric_flow
-.. _additional scopes: https://cloud.google.com/compute/docs/authentication#using
-.. _Service Account key file: https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount
+.. _Authentication Getting Started Guide:
+    https://cloud.google.com/docs/authentication/getting-started
 
 Install Dependencies
 ++++++++++++++++++++
 
-#. Install `pip`_ and `virtualenv`_ if you do not already have them.
+#. Clone python-docs-samples and change directory to the sample directory you want to use.
+
+    .. code-block:: bash
+
+        $ git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+
+#. Install `pip`_ and `virtualenv`_ if you do not already have them. You may want to refer to the `Python Development Environment Setup Guide`_ for Google Cloud Platform for instructions.
+
+   .. _Python Development Environment Setup Guide:
+       https://cloud.google.com/python/setup
 
 #. Create a virtualenv. Samples are compatible with Python 2.7 and 3.4+.
 
@@ -77,6 +68,10 @@ Samples
 Detect
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=vision/cloud-client/detect/detect.py,vision/cloud-client/detect/README.rst
+
+
 
 
 To run this sample:
@@ -86,24 +81,25 @@ To run this sample:
     $ python detect.py
 
     usage: detect.py [-h]
-                     {faces,faces-uri,labels,labels-uri,landmarks,landmarks-uri,text,text-uri,logos,logos-uri,safe-search,safe-search-uri,properties,properties-uri,web,web-uri,crophints,crophints-uri,document,document-uri}
+                     {faces,faces-uri,labels,labels-uri,landmarks,landmarks-uri,text,text-uri,logos,logos-uri,safe-search,safe-search-uri,properties,properties-uri,web,web-uri,web-geo,web-geo-uri,crophints,crophints-uri,document,document-uri}
                      ...
-    
+
     This application demonstrates how to perform basic operations with the
     Google Cloud Vision API.
-    
+
     Example Usage:
     python detect.py text ./resources/wakeupcat.jpg
     python detect.py labels ./resources/landmark.jpg
     python detect.py web ./resources/landmark.jpg
     python detect.py web-uri http://wheresgus.com/dog.JPG
+    python detect.py web-geo ./resources/city.jpg
     python detect.py faces-uri gs://your-bucket/file.jpg
-    
+
     For more information, the documentation at
     https://cloud.google.com/vision/docs.
-    
+
     positional arguments:
-      {faces,faces-uri,labels,labels-uri,landmarks,landmarks-uri,text,text-uri,logos,logos-uri,safe-search,safe-search-uri,properties,properties-uri,web,web-uri,crophints,crophints-uri,document,document-uri}
+      {faces,faces-uri,labels,labels-uri,landmarks,landmarks-uri,text,text-uri,logos,logos-uri,safe-search,safe-search-uri,properties,properties-uri,web,web-uri,web-geo,web-geo-uri,crophints,crophints-uri,document,document-uri}
         faces               Detects faces in an image.
         faces-uri           Detects faces in the file located in Google Cloud
                             Storage or the web.
@@ -128,15 +124,21 @@ To run this sample:
         web                 Detects web annotations given an image.
         web-uri             Detects web annotations in the file located in Google
                             Cloud Storage.
+        web-geo             Detects web annotations given an image, using the
+                            geotag metadata in the iamge to detect web entities.
+        web-geo-uri         Detects web annotations given an image in the file
+                            located in Google Cloud Storage., using the geotag
+                            metadata in the iamge to detect web entities.
         crophints           Detects crop hints in an image.
         crophints-uri       Detects crop hints in the file located in Google Cloud
                             Storage.
         document            Detects document features in an image.
         document-uri        Detects document features in the file located in
                             Google Cloud Storage.
-    
+
     optional arguments:
       -h, --help            show this help message and exit
+
 
 
 

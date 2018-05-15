@@ -51,10 +51,11 @@ def transcribe_file(speech_file):
     # [START migration_sync_response]
     response = client.recognize(config, audio)
     # [END migration_sync_request]
-    alternatives = response.results[0].alternatives
-
-    for alternative in alternatives:
-        print('Transcript: {}'.format(alternative.transcript))
+    # Each result is for a consecutive portion of the audio. Iterate through
+    # them to get the transcripts for the entire audio file.
+    for result in response.results:
+        # The first alternative is the most likely one for this portion.
+        print(u'Transcript: {}'.format(result.alternatives[0].transcript))
     # [END migration_sync_response]
 # [END def_transcribe_file]
 
@@ -76,10 +77,11 @@ def transcribe_gcs(gcs_uri):
     # [END migration_audio_config_gcs]
 
     response = client.recognize(config, audio)
-    alternatives = response.results[0].alternatives
-
-    for alternative in alternatives:
-        print('Transcript: {}'.format(alternative.transcript))
+    # Each result is for a consecutive portion of the audio. Iterate through
+    # them to get the transcripts for the entire audio file.
+    for result in response.results:
+        # The first alternative is the most likely one for this portion.
+        print(u'Transcript: {}'.format(result.alternatives[0].transcript))
 # [END def_transcribe_gcs]
 
 

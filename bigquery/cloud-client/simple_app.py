@@ -15,37 +15,37 @@
 # limitations under the License.
 
 """Simple application that performs a query with BigQuery."""
-# [START all]
-# [START create_client]
-import uuid
-
+# [START bigquery_simple_app_all]
+# [START bigquery_simple_app_deps]
 from google.cloud import bigquery
+# [END bigquery_simple_app_deps]
 
 
-def query_shakespeare():
+def query_stackoverflow():
+    # [START bigquery_simple_app_client]
     client = bigquery.Client()
-    # [END create_client]
-    # [START run_query]
-    query_job = client.run_async_query(str(uuid.uuid4()), """
-        #standardSQL
-        SELECT corpus AS title, COUNT(*) AS unique_words
-        FROM `publicdata.samples.shakespeare`
-        GROUP BY title
-        ORDER BY unique_words DESC
+    # [END bigquery_simple_app_client]
+    # [START bigquery_simple_app_query]
+    query_job = client.query("""
+        SELECT
+          CONCAT(
+            'https://stackoverflow.com/questions/',
+            CAST(id as STRING)) as url,
+          view_count
+        FROM `bigquery-public-data.stackoverflow.posts_questions`
+        WHERE tags like '%google-bigquery%'
+        ORDER BY view_count DESC
         LIMIT 10""")
 
-    query_job.begin()
-    query_job.result()  # Wait for job to complete.
-    # [END run_query]
+    results = query_job.result()  # Waits for job to complete.
+    # [END bigquery_simple_app_query]
 
-    # [START print_results]
-    destination_table = query_job.destination
-    destination_table.reload()
-    for row in destination_table.fetch_data():
-        print(row)
-    # [END print_results]
+    # [START bigquery_simple_app_print]
+    for row in results:
+        print("{} : {} views".format(row.url, row.view_count))
+    # [END bigquery_simple_app_print]
 
 
 if __name__ == '__main__':
-    query_shakespeare()
-# [END all]
+    query_stackoverflow()
+# [END bigquery_simple_app_all]

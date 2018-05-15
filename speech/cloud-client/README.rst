@@ -3,6 +3,10 @@
 Google Cloud Speech API Python Samples
 ===============================================================================
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/README.rst
+
+
 This directory contains samples for Google Cloud Speech API. The `Google Cloud Speech API`_ enables easy integration of Google speech recognition technologies into developer applications. Send audio and receive a text transcription from the Cloud Speech API service.
 
 - See the `migration guide`_ for information about migrating to Python client library v0.27.
@@ -12,7 +16,7 @@ This directory contains samples for Google Cloud Speech API. The `Google Cloud S
 
 
 
-.. _Google Cloud Speech API: https://cloud.google.com/speech/docs/ 
+.. _Google Cloud Speech API: https://cloud.google.com/speech/docs/
 
 Setup
 -------------------------------------------------------------------------------
@@ -21,39 +25,26 @@ Setup
 Authentication
 ++++++++++++++
 
-Authentication is typically done through `Application Default Credentials`_,
-which means you do not have to change the code to authenticate as long as
-your environment has credentials. You have a few options for setting up
-authentication:
+This sample requires you to have authentication setup. Refer to the
+`Authentication Getting Started Guide`_ for instructions on setting up
+credentials for applications.
 
-#. When running locally, use the `Google Cloud SDK`_
-
-    .. code-block:: bash
-
-        gcloud auth application-default login
-
-
-#. When running on App Engine or Compute Engine, credentials are already
-   set-up. However, you may need to configure your Compute Engine instance
-   with `additional scopes`_.
-
-#. You can create a `Service Account key file`_. This file can be used to
-   authenticate to Google Cloud Platform services from any environment. To use
-   the file, set the ``GOOGLE_APPLICATION_CREDENTIALS`` environment variable to
-   the path to the key file, for example:
-
-    .. code-block:: bash
-
-        export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json
-
-.. _Application Default Credentials: https://cloud.google.com/docs/authentication#getting_credentials_for_server-centric_flow
-.. _additional scopes: https://cloud.google.com/compute/docs/authentication#using
-.. _Service Account key file: https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount
+.. _Authentication Getting Started Guide:
+    https://cloud.google.com/docs/authentication/getting-started
 
 Install Dependencies
 ++++++++++++++++++++
 
-#. Install `pip`_ and `virtualenv`_ if you do not already have them.
+#. Clone python-docs-samples and change directory to the sample directory you want to use.
+
+    .. code-block:: bash
+
+        $ git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+
+#. Install `pip`_ and `virtualenv`_ if you do not already have them. You may want to refer to the `Python Development Environment Setup Guide`_ for Google Cloud Platform for instructions.
+
+   .. _Python Development Environment Setup Guide:
+       https://cloud.google.com/python/setup
 
 #. Create a virtualenv. Samples are compatible with Python 2.7 and 3.4+.
 
@@ -77,6 +68,10 @@ Samples
 Quickstart
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/quickstart.py,speech/cloud-client/README.rst
+
+
 
 
 To run this sample:
@@ -89,6 +84,10 @@ To run this sample:
 Transcribe
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/transcribe.py,speech/cloud-client/README.rst
+
+
 
 
 To run this sample:
@@ -98,23 +97,28 @@ To run this sample:
     $ python transcribe.py
 
     usage: transcribe.py [-h] path
-    
+
     Google Cloud Speech API sample application using the REST API for batch
     processing.
-    
+
     Example usage:
         python transcribe.py resources/audio.raw
         python transcribe.py gs://cloud-samples-tests/speech/brooklyn.flac
-    
+
     positional arguments:
       path        File or GCS path for audio file to be recognized
-    
+
     optional arguments:
       -h, --help  show this help message and exit
 
 
+
 Transcribe async
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/transcribe_async.py,speech/cloud-client/README.rst
+
 
 
 
@@ -125,23 +129,28 @@ To run this sample:
     $ python transcribe_async.py
 
     usage: transcribe_async.py [-h] path
-    
+
     Google Cloud Speech API sample application using the REST API for async
     batch processing.
-    
+
     Example usage:
         python transcribe_async.py resources/audio.raw
         python transcribe_async.py gs://cloud-samples-tests/speech/vr.flac
-    
+
     positional arguments:
       path        File or GCS path for audio file to be recognized
-    
+
     optional arguments:
       -h, --help  show this help message and exit
 
 
+
 Transcribe with word time offsets
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/transcribe_word_time_offsets.py,speech/cloud-client/README.rst
+
 
 
 
@@ -152,22 +161,27 @@ To run this sample:
     $ python transcribe_word_time_offsets.py
 
     usage: transcribe_word_time_offsets.py [-h] path
-    
+
     Google Cloud Speech API sample that demonstrates word time offsets.
-    
+
     Example usage:
         python transcribe_word_time_offsets.py resources/audio.raw
         python transcribe_word_time_offsets.py         gs://cloud-samples-tests/speech/vr.flac
-    
+
     positional arguments:
       path        File or GCS path for audio file to be recognized
-    
+
     optional arguments:
       -h, --help  show this help message and exit
 
 
+
 Transcribe Streaming
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/transcribe_streaming.py,speech/cloud-client/README.rst
+
 
 
 
@@ -178,17 +192,52 @@ To run this sample:
     $ python transcribe_streaming.py
 
     usage: transcribe_streaming.py [-h] stream
-    
+
     Google Cloud Speech API sample application using the streaming API.
-    
+
     Example usage:
         python transcribe_streaming.py resources/audio.raw
-    
+
     positional arguments:
       stream      File to stream to the API
-    
+
     optional arguments:
       -h, --help  show this help message and exit
+
+
+
+Beta Samples
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. image:: https://gstatic.com/cloudssh/images/open-btn.png
+   :target: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/GoogleCloudPlatform/python-docs-samples&page=editor&open_in_editor=speech/cloud-client/beta_snippets.py,speech/cloud-client/README.rst
+
+
+
+
+To run this sample:
+
+.. code-block:: bash
+
+    $ python beta_snippets.py
+
+    usage: beta_snippets.py [-h] command path
+
+    Google Cloud Speech API sample that demonstrates enhanced models
+    and recognition metadata.
+
+    Example usage:
+        python beta_snippets.py enhanced-model resources/commercial_mono.wav
+        python beta_snippets.py metadata resources/commercial_mono.wav
+        python beta_snippets.py punctuation resources/commercial_mono.wav
+
+    positional arguments:
+      command
+      path        File for audio file to be recognized
+
+    optional arguments:
+      -h, --help  show this help message and exit
+
 
 
 

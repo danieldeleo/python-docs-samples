@@ -49,12 +49,14 @@ def transcribe_file(speech_file):
     # [END migration_async_request]
 
     print('Waiting for operation to complete...')
-    result = operation.result(timeout=90)
+    response = operation.result(timeout=90)
 
-    alternatives = result.results[0].alternatives
-    for alternative in alternatives:
-        print('Transcript: {}'.format(alternative.transcript))
-        print('Confidence: {}'.format(alternative.confidence))
+    # Each result is for a consecutive portion of the audio. Iterate through
+    # them to get the transcripts for the entire audio file.
+    for result in response.results:
+        # The first alternative is the most likely one for this portion.
+        print(u'Transcript: {}'.format(result.alternatives[0].transcript))
+        print('Confidence: {}'.format(result.alternatives[0].confidence))
     # [END migration_async_response]
 # [END def_transcribe_file]
 
@@ -76,12 +78,14 @@ def transcribe_gcs(gcs_uri):
     operation = client.long_running_recognize(config, audio)
 
     print('Waiting for operation to complete...')
-    result = operation.result(timeout=90)
+    response = operation.result(timeout=90)
 
-    alternatives = result.results[0].alternatives
-    for alternative in alternatives:
-        print('Transcript: {}'.format(alternative.transcript))
-        print('Confidence: {}'.format(alternative.confidence))
+    # Each result is for a consecutive portion of the audio. Iterate through
+    # them to get the transcripts for the entire audio file.
+    for result in response.results:
+        # The first alternative is the most likely one for this portion.
+        print(u'Transcript: {}'.format(result.alternatives[0].transcript))
+        print('Confidence: {}'.format(result.alternatives[0].confidence))
 # [END def_transcribe_gcs]
 
 

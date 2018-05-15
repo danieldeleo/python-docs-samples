@@ -133,15 +133,17 @@ def _setup_appengine_sdk(session):
 #
 
 
-PYTEST_COMMON_ARGS = [
-    '--cov',
-    '--cov-config', os.path.abspath('.coveragerc'),
-    '--cov-report', 'term']
+PYTEST_COMMON_ARGS = ['--junitxml=sponge_log.xml']
 
+# Ignore I202 "Additional newline in a section of imports." to accommodate
+# region tags in import blocks. Since we specify an explicit ignore, we also
+# have to explicitly ignore the list of default ignores:
+# `E121,E123,E126,E226,E24,E704,W503,W504` as shown by `flake8 --help`.
 FLAKE8_COMMON_ARGS = [
     '--show-source', '--builtin', 'gettext', '--max-complexity', '20',
     '--import-order-style', 'google',
     '--exclude', '.nox,.cache,env,lib,generated_pb2,*_pb2.py,*_pb2_grpc.py',
+    '--ignore=E121,E123,E126,E226,E24,E704,W503,W504,I202',
 ]
 
 
@@ -151,8 +153,13 @@ ALL_SAMPLE_DIRECTORIES = sorted(list(_collect_dirs('.', suffix='.py')))
 GAE_STANDARD_SAMPLES = [
     sample for sample in ALL_TESTED_SAMPLES
     if sample.startswith('./appengine/standard')]
-NON_GAE_STANDARD_SAMPLES = sorted(
+PY2_ONLY_SAMPLES = GAE_STANDARD_SAMPLES + [
+    sample for sample in ALL_TESTED_SAMPLES
+    if sample.startswith('./composer/workflows')]
+NON_GAE_STANDARD_SAMPLES_PY2 = sorted(
     list(set(ALL_TESTED_SAMPLES) - set(GAE_STANDARD_SAMPLES)))
+NON_GAE_STANDARD_SAMPLES_PY3 = sorted(
+    list(set(ALL_TESTED_SAMPLES) - set(PY2_ONLY_SAMPLES)))
 
 
 # Filter sample directories if on a CI like Travis or Circle to only run tests
@@ -167,8 +174,10 @@ if CHANGED_FILES is not None:
         ALL_SAMPLE_DIRECTORIES, CHANGED_FILES)
     GAE_STANDARD_SAMPLES = _filter_samples(
         GAE_STANDARD_SAMPLES, CHANGED_FILES)
-    NON_GAE_STANDARD_SAMPLES = _filter_samples(
-        NON_GAE_STANDARD_SAMPLES, CHANGED_FILES)
+    NON_GAE_STANDARD_SAMPLES_PY2 = _filter_samples(
+        NON_GAE_STANDARD_SAMPLES_PY2, CHANGED_FILES)
+    NON_GAE_STANDARD_SAMPLES_PY3 = _filter_samples(
+        NON_GAE_STANDARD_SAMPLES_PY3, CHANGED_FILES)
 
 
 def _session_tests(session, sample, post_install=None):
@@ -205,17 +214,17 @@ def session_gae(session, sample):
     _session_tests(session, sample, _setup_appengine_sdk)
 
 
-@nox.parametrize('sample', NON_GAE_STANDARD_SAMPLES)
+@nox.parametrize('sample', NON_GAE_STANDARD_SAMPLES_PY2)
 def session_py27(session, sample):
     """Runs py.test for a sample using Python 2.7"""
     session.interpreter = 'python2.7'
     _session_tests(session, sample)
 
 
-@nox.parametrize('sample', NON_GAE_STANDARD_SAMPLES)
-def session_py35(session, sample):
-    """Runs py.test for a sample using Python 3.5"""
-    session.interpreter = 'python3.5'
+@nox.parametrize('sample', NON_GAE_STANDARD_SAMPLES_PY3)
+def session_py36(session, sample):
+    """Runs py.test for a sample using Python 3.6"""
+    session.interpreter = 'python3.6'
     _session_tests(session, sample)
 
 

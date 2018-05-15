@@ -14,8 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""This application demonstrates how to perform basic operations with the
-Google Cloud Video Intelligence API.
+"""This application demonstrates how to detect labels from a video
+based on the image content with the Google Cloud Video Intelligence
+API.
 
 For more information, check out the documentation at
 https://cloud.google.com/videointelligence/docs.
@@ -29,46 +30,44 @@ Usage Example:
 # [START full_tutorial]
 # [START imports]
 import argparse
-import sys
-import time
 
-from google.cloud.gapic.videointelligence.v1beta1 import enums
-from google.cloud.gapic.videointelligence.v1beta1 import (
-    video_intelligence_service_client)
+from google.cloud import videointelligence
 # [END imports]
 
 
 def analyze_labels(path):
     """ Detects labels given a GCS path. """
     # [START construct_request]
-    video_client = (video_intelligence_service_client.
-                    VideoIntelligenceServiceClient())
-    features = [enums.Feature.LABEL_DETECTION]
-    operation = video_client.annotate_video(path, features)
+    video_client = videointelligence.VideoIntelligenceServiceClient()
+    features = [videointelligence.enums.Feature.LABEL_DETECTION]
+    operation = video_client.annotate_video(path, features=features)
     # [END construct_request]
     print('\nProcessing video for label annotations:')
 
     # [START check_operation]
-    while not operation.done():
-        sys.stdout.write('.')
-        sys.stdout.flush()
-        time.sleep(20)
-
+    result = operation.result(timeout=90)
     print('\nFinished processing.')
     # [END check_operation]
 
     # [START parse_response]
-    results = operation.result().annotation_results[0]
+    segment_labels = result.annotation_results[0].segment_label_annotations
+    for i, segment_label in enumerate(segment_labels):
+        print('Video label description: {}'.format(
+            segment_label.entity.description))
+        for category_entity in segment_label.category_entities:
+            print('\tLabel category description: {}'.format(
+                category_entity.description))
 
-    for label in results.label_annotations:
-        print('Label description: {}'.format(label.description))
-        print('Locations:')
-
-        for l, location in enumerate(label.locations):
-            print('\t{}: {} to {}'.format(
-                l,
-                location.segment.start_time_offset,
-                location.segment.end_time_offset))
+        for i, segment in enumerate(segment_label.segments):
+            start_time = (segment.segment.start_time_offset.seconds +
+                          segment.segment.start_time_offset.nanos / 1e9)
+            end_time = (segment.segment.end_time_offset.seconds +
+                        segment.segment.end_time_offset.nanos / 1e9)
+            positions = '{}s to {}s'.format(start_time, end_time)
+            confidence = segment.confidence
+            print('\tSegment {}: {}'.format(i, positions))
+            print('\tConfidence: {}'.format(confidence))
+        print('\n')
     # [END parse_response]
 
 

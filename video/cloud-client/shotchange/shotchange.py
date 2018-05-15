@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""This application demonstrates how to perform basic operations with the
-Google Cloud Video Intelligence API.
+"""This application demonstrates how to identify all different shots
+in a video using the Google Cloud Video Intelligence API.
 
 For more information, check out the documentation at
 https://cloud.google.com/videointelligence/docs.
@@ -29,42 +29,32 @@ Example Usage:
 # [START full_tutorial]
 # [START imports]
 import argparse
-import sys
-import time
 
-from google.cloud.gapic.videointelligence.v1beta1 import enums
-from google.cloud.gapic.videointelligence.v1beta1 import (
-    video_intelligence_service_client)
+from google.cloud import videointelligence
 # [END imports]
 
 
 def analyze_shots(path):
     """ Detects camera shot changes. """
     # [START construct_request]
-    video_client = (video_intelligence_service_client.
-                    VideoIntelligenceServiceClient())
-    features = [enums.Feature.SHOT_CHANGE_DETECTION]
-    operation = video_client.annotate_video(path, features)
+    video_client = videointelligence.VideoIntelligenceServiceClient()
+    features = [videointelligence.enums.Feature.SHOT_CHANGE_DETECTION]
+    operation = video_client.annotate_video(path, features=features)
     # [END construct_request]
     print('\nProcessing video for shot change annotations:')
 
     # [START check_operation]
-    while not operation.done():
-        sys.stdout.write('.')
-        sys.stdout.flush()
-        time.sleep(20)
-
+    result = operation.result(timeout=90)
     print('\nFinished processing.')
     # [END check_operation]
 
     # [START parse_response]
-    shots = operation.result().annotation_results[0]
-
-    for note, shot in enumerate(shots.shot_annotations):
-        print('Scene {}: {} to {}'.format(
-            note,
-            shot.start_time_offset,
-            shot.end_time_offset))
+    for i, shot in enumerate(result.annotation_results[0].shot_annotations):
+        start_time = (shot.start_time_offset.seconds +
+                      shot.start_time_offset.nanos / 1e9)
+        end_time = (shot.end_time_offset.seconds +
+                    shot.end_time_offset.nanos / 1e9)
+        print('\tShot {}: {} to {}'.format(i, start_time, end_time))
     # [END parse_response]
 
 

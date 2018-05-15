@@ -55,13 +55,17 @@ def transcribe_streaming(stream_file):
     # [END migration_streaming_request]
 
     for response in responses:
+        # Once the transcription has settled, the first result will contain the
+        # is_final result. The other results will be for subsequent portions of
+        # the audio.
         for result in response.results:
             print('Finished: {}'.format(result.is_final))
             print('Stability: {}'.format(result.stability))
             alternatives = result.alternatives
+            # The alternatives are ordered from most likely to least.
             for alternative in alternatives:
                 print('Confidence: {}'.format(alternative.confidence))
-                print('Transcript: {}'.format(alternative.transcript))
+                print(u'Transcript: {}'.format(alternative.transcript))
     # [END migration_streaming_response]
 # [END def_transcribe_streaming]
 
